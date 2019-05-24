@@ -1,0 +1,11 @@
+MUPAD_TARINDEX
+### DO NOT MODIFY THIS FILE BY HAND ###
+8           86          number of Files, total file name length
+9216        9216        
+9728        9728        
+10240       10240       
+512         781         init.mu
+2048        3407        LIBFILES/numfuns.mu
+4608        4947        NUMFUNS/factorial.mu
+5632        6195        NUMFUNS/gcd.mu
+7168        8231        NUMFUNS/russian.mu

@@ -1,0 +1,127 @@
+#!/bin/sh
+
+# uname -r	liefert Versionsnummer des Betriebssystems
+# uname -s	liefert Namen des Betriebssystems
+# uname -m	liefert Namen der Maschinen-Hardware
+
+# Bei Freigabe der Sun-Multiprozessor-Version ist der Eintrag
+# sun4d) ARCH=solaris ;; durch sun4d) ARCH=sun-multi ;;
+# zu ersetzen.
+
+PATH=/bin:/usr/bin:/usr/ucb:/usr/bsd
+
+ARCH=UNKNOWN
+
+if test -x /usr/bin/hostinfo ; then
+    if test "`hostinfo | grep NeXT`" != "" ; then
+       SYS=NeXT
+    elif test "`hostinfo | grep Darwin`" != "" ; then
+       SYS=Darwin
+    else
+       SYS=UNKNOWN
+    fi
+else
+    SYS="`uname -s`"
+fi
+
+case "$SYS" in
+
+  NeXT)         case "`arch`" in
+                  i386) ARCH=nextx86 ;;
+                esac ;;
+
+  OSF1)		case "`uname -m`" in
+		  alpha) ARCH=alpha ;;
+		esac ;;
+
+  SunOS)	case "`uname -m`" in
+		  i86pc) ARCH=i86pc ;;
+                  sun3*) ARCH=sun3 ;;
+		  sun4 | sun4c | sun4m)
+			case "`uname -r`" in
+			   4.1.*) ARCH=sun4 ;;
+			   5.*  ) ARCH=solaris ;;
+			esac ;;
+
+		  sun4d) ARCH=solaris ;;
+		  sun4u) ARCH=solaris ;;
+		esac ;;
+
+  IRIX*)	case "`uname -r`" in
+		  4.*) ARCH=sgi4 ;;
+		  5.*) ARCH=sgi5 ;;
+		  6.*) ARCH=sgi6 ;;
+		esac ;;
+
+  AIX)		ARCH=ibmrs6000 ;;
+
+  Linux)        case "`uname -m`" in
+		   i*86) LINE="`ldd /bin/sh | grep libc | tr '\t' 'x' `";
+       		  	case $LINE in
+		          xlibc.so.6*)  ARCH=linux ;;
+       		   	  xlibc.so.5*)  ARCH=i386 ;;
+		        esac ;;
+
+            ppc) ARCH=linuxppc ;; #mklinux ;;
+          alpha) ARCH=dalinux ;;
+           arm*) ARCH=arm-linux ;;
+         x86_64) ARCH=linux64 ;;
+        esac ;;
+
+  ULTRIX)	case "`uname -m`" in
+		  RISC) ARCH=pmax ;;
+		  VAX ) ARCH=uvax ;;
+		esac ;;
+
+  HP-UX)        if test "`uname -C 2>&1`" = "SPP-UX" ; then
+                   ARCH=spp1000;
+                else
+                   ARCH=hp ;
+                fi;;
+
+  FreeBSD)	ARCH=freebsd ;;
+
+  NetBSD)	case "`uname -m`" in
+                  amiga) ARCH=aminetbsd ;;
+                      *) ARCH=netbsd ;;
+                esac ;;
+
+  OpenBSD)	ARCH=openbsd ;;
+
+  Darwin)   CDIR=`dirname "$0"`
+            if test -e "$CDIR/../../MacOS" ; then
+                ARCH=MacOS
+            else
+                if [ "`hostname -s `" = "celyn" ] ; then               
+                    ARCH=Darwini386_64
+                else
+                    ARCH=Darwini386
+                fi
+            fi
+            ;;
+
+  CYGWIN_NT*)	if echo $SYS | grep  -q 64 ; then 
+                   ARCH=x64
+		else
+		   ARCH=win32 
+		fi
+		;; 
+
+  *)		TYPESTR="`file /bin/sh`"
+		if test `echo $TYPESTR | awk '{print $2}'` = iAPX ; then
+		   ARCH=symmetry;
+		fi
+esac
+
+if [ $# -gt 0 -a "$1" = "-n" ] ; then
+    case "$ARCH" in
+        linux)       ARCH=glnx86 ;;  
+        linux64)     ARCH=glnxa64 ;;  
+        Darwin)      ARCH=mac ;;  
+        Darwini386)  ARCH=maci ;;  
+    esac
+fi
+
+echo $ARCH
+
+exit

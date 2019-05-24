@@ -1,0 +1,143 @@
+House_Area=[24.23	19.24	24.64	28.06	74.9]; %小屋各面的面积
+Inverter_P=1000*[0.4
+0.8
+0.8
+1.6
+2.4
+4
+2.4
+4
+8
+16
+0.8
+1.6
+2.4
+4.0
+6.0
+8
+10
+12
+];%逆变器能承受的功率
+Inverter_P=Inverter_P';
+P=[215
+325
+200
+270
+245
+295
+265
+320
+210
+240
+280
+295
+250
+100
+58
+100
+90
+100
+4
+4
+8
+12
+12
+50
+];%各种型号的电池功率
+P=P';
+S=[1.27664
+    1.938396
+    1.27664
+    1.637792
+    1.63515
+    1.938396
+    1.63515
+    1.938396
+    1.470144
+    1.62688
+    1.803432
+    1.940352
+    1.668
+    1.43
+    0.939231
+    1.575196
+    1.54
+    1.54
+    0.11005
+    0.1107
+    0.218325
+    0.3266
+    0.29039
+    1.17124
+    ];
+    S=S';
+    Battery_money=[14.9 14.9 14.9 14.9 14.9 14.9 12.5 12.5 12.5 12.5 12.5 12.5 12.5 4.8 4.8 4.8 4.8 4.8 4.8 4.8 4.8 4.8 4.8 4.8];%电池的单价
+    Inverter_money=[2900
+4500
+4500
+6900
+10200
+15000
+10200
+15300
+35000
+63800
+4500
+6900
+10300
+15300
+22000
+35000
+43750
+54700
+];%逆变器的单价
+Inverter_money=Inverter_money';
+efficiency=[16.84
+16.64
+18.70
+16.50
+14.98
+15.11
+16.21
+16.39
+15.98
+14.80
+15.98
+15.20
+14.99
+6.99
+6.17
+6.35
+5.84
+6.49
+3.63
+3.63
+3.66
+3.66
+4.13
+4.27
+];
+efficiency=efficiency';
+fusheqiangdu=[1313936	594208	1050159	1644367	261034];
+N=1000;%蒙特卡洛模拟次数
+cost_perform=zeros(1,N);
+for i=1%:1:N
+    Battery_num=round(10*rand(1,24));
+    Inverter_num=randint(1,18);
+    Battery_Area=S.*Battery_num;
+    if(sum(Battery_Area(:))<=House_Area(1))
+            Battery_P=P.*Battery_num;
+            Inverter_sumP=Inverter_num.*Inverter_P;
+            if(sum(Battery_P(:))<=sum(Inverter_sumP(:)))
+                Battery_Smoney=Battery_money.*Battery_num;
+                Inverter_Smoney=Inverter_money.*Inverter_num;
+                Sum_fusheqiangdu=efficiency.*S.*Battery_num*fusheqiangdu;
+                cost_perform(1,i)=sum(Sum_fusheqiangdu(:))/(sum(Battery_Smoney(:))+sum(Inverter_Smoney(:)));
+            else
+                continue;
+            end
+    else
+        continue;
+    end
+end
+[newarray,subsequence]=sort(cost_perform);

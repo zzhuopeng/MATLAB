@@ -1,0 +1,84 @@
+% %计算全部区域内某一种元素的污染负荷指数。(攀枝花地区PDF文档)
+% C=[3.6 130 31 13.2 35 12.3 31 69];
+% load nd
+% PLI=zeros(319,8);
+% for i=1:1:8
+%     for j=1:1:319
+%            PLI(j,i)=nd(j,i)./C(i);
+%     end
+% end
+% 
+% for i=1:1:8
+%     for j=2:1:319
+%            PLI(j,i)=PLI(j,i).*PLI(j-1,i);
+%     end
+% end
+% 
+% PLIzone=zeros(8);
+% for i=1:1:8
+%     PLIzone(i)=PLI(319,i).^(1/319)
+% end
+
+
+% %不同功能区的污染负荷指数计算
+% 
+% load nongdu1
+% load nongdu2
+% load nongdu3
+% load nongdu4
+% load nongdu5
+% 
+% C=[3.6 130 31 13.2 35 12.3 31 69];
+% M=35;
+% CF=zeros(M,8);
+% for i=1:1:8
+%     for j=1:1:M
+%         CF(j,i)=nongdu5(j,i)./C(i);
+%     end
+% end
+% 
+% PLI=zeros(M);
+% for j=1:1:M
+%     for i=2:1:8
+%         CF(j,i)=CF(j,i).*CF(j,i-1);
+%     end
+%     PLI(j)=CF(j,8).^(1/8);
+% end
+% 
+% for j=2:1:M
+%     PLI(j)=PLI(j).*PLI(j-1);
+% end
+% PLIzone=PLI(M).^(1/M)
+
+
+%计算不同功能区不同元素污染负荷指数
+load nongdu1
+load nongdu2
+load nongdu3
+load nongdu4
+load nongdu5
+
+C=[3.6 130 31 13.2 35 12.3 31 69];
+M=35;
+PLI=zeros(M,8);
+for i=1:1:8
+    for j=1:1:M
+           PLI(j,i)=nongdu5(j,i)./C(i);
+    end
+end
+
+for i=1:1:8
+    for j=2:1:M
+           PLI(j,i)=PLI(j,i).*PLI(j-1,i);
+    end
+end
+
+PLIzone=zeros(8);
+for i=1:1:8
+    PLIzone(i)=PLI(M,i).^(1/M)
+end
+
+
+
+
+

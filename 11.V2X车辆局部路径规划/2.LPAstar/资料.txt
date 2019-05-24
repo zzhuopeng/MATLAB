@@ -1,0 +1,5 @@
+终身规划A*算法（LPA*）：Lifelong Planning A*：https://blog.csdn.net/lqzdreamer/article/details/85175372
+
+LPA* 路径搜索算法介绍：https://blog.csdn.net/a380331382/article/details/83549015
+
+A*、LPA*、D*实现代码：https://github.com/Mooophy/Path-Planning

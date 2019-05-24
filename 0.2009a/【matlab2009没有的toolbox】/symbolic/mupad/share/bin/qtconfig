@@ -1,0 +1,23 @@
+#!/bin/sh
+
+SHARE_BIN=`dirname "$0"`
+
+if test `basename "${SHARE_BIN}"` = bin  ; then
+  SHARE=`dirname "${SHARE_BIN}"`
+  if test `basename "${SHARE}"` = share ; then
+    MuPAD_ROOT_PATH=`dirname "${SHARE}"`
+  else
+    MuPAD_ROOT_PATH=..
+  fi
+else
+  MuPAD_ROOT_PATH=../..
+fi
+export MuPAD_ROOT_PATH
+
+SYSINFO=`${MuPAD_ROOT_PATH}/share/bin/sysinfo`
+
+LD_LIBRARY_PATH="${MuPAD_ROOT_PATH}/${SYSINFO}/lib:${LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH
+
+"${MuPAD_ROOT_PATH}/${SYSINFO}/bin/qtconfig" "$@"
+

@@ -1,0 +1,25 @@
+当前平面的z一定--且散点已知--存储在matlab文件中
+
+mat转txt：
+
+	参考资料：https://blog.csdn.net/yypyzzyt/article/details/9985655
+	https://blog.csdn.net/u013749068/article/details/78761553
+
+	
+	
+
+这个是我自己写的一个小函数，你也可以这样用。当然哦，我写的是个2D阵，你修改一下可以作为3D阵的保存方法了。https://zhidao.baidu.com/question/125102916.html
+function back = save2txt( file_Name, matrix ) %把矩阵matrix保存成txt文件。
+fop = fopen( file_Name, 'wt' );
+[M,N] = size(matrix);
+for m = 1:M
+for n = 1:N
+fprintf( fop, ' %s', mat2str( matrix(m,n) ) );
+end
+fprintf(fop, '\n' );
+end
+back = fclose( fop ) ;
+
+
+
+寻找散点中在一条直线上点的个数最大值：https://blog.csdn.net/phnumber/article/details/49508113

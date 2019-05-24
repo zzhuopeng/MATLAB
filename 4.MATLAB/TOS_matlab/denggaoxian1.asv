@@ -1,0 +1,6 @@
+load S
+load nd
+x=S(:,1);
+y=S(:,2);
+C=nd(:,1);
+patch(x,y,C)

@@ -1,0 +1,34 @@
+<?xml version='1.0'?><!DOCTYPE library PUBLIC "-//MuPAD//DTD DocBook XML V4.3-Based Variant//EN"
+     "http://research.mupad.de/doc/xml/MuPADdoc.dtd">
+<library prefix='numfuns'>
+  <title>
+    <eng>Elementary Number Theory</eng>
+    <de>Elementare Zahlentheorie</de>
+  </title>
+
+<section label=''>
+  <title>
+    <eng>Package <expr>numfuns</expr></eng>
+    <de>Paket <expr>numfuns</expr></de>
+  </title>
+  
+  <eng>
+    This demo package contains functions for elementary number theory.
+  </eng>
+  <de>
+    Dieses Demo-Package enthält Funktionen zur elementaren Zahlentheorie.
+  </de>
+</section>
+
+<section>
+  <title>
+    <eng>Help files</eng>
+    <de>Hilfedateien</de>
+  </title>
+
+  <include filename='factorial.mupdoc'/>
+  <include filename='gcd.mupdoc'/>
+  <include filename='russian.mupdoc'/>
+</section>
+
+</library>
